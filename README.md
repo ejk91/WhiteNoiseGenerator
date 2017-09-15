@@ -17,4 +17,8 @@ This challenge is programming language agnostic! Pick whichever language you're 
 
 3. Push your code and one of the 3 requirements on github on your own public repo. Send us an email back at jobs@unify.id with your repo URL. You have 3 hours and we'll check your time on whatever is earliest, the timestamp on your last commit or your email reply back. Have fun with randomness!
 
+## Notes
+
+-Completed using AudioContext Web API
+-Since the audio buffer can hold 132300 frames per channel, the data had to be spaced out within the buffer if we wanted to avoid multiple calls to RANDOM.org API. Every 28th frame had a data point.
 
