@@ -6,6 +6,57 @@
 </body>
 
 <script>
+  // initializes AudioContext instance
+  var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var button = document.querySelector('button');
+
+  // Stereo (L/R)
+  var channels = 2;
+
+  // we want to multiply by 3 since sampleRate is for 1 second
+  var frameCount = audioCtx.sampleRate * 3.0
+  // creates a new empty AudioBuffer object that can be populated with data from RANDOM.org
+  var myArrayBuffer = audioCtx.createBuffer(channels, frameCount, audioCtx.sampleRate);
+
+  //When button gets clicked - make call to RANDOM API to retrieve Data points
+  button.onclick = function() {
+    // make API call for data points
+    var request = 'https://www.random.org/integers/?num=10&min=-100&max=100&col=1&base=10&format=plain&rnd=new'
+
+    fetch(request)
+      .then((result) => result.text())
+      .then((result) => result.toString())
+      .then((result) => result.split('\n'))
+      .then((result) => {
+        var data = result;
+        console.log(data);
+        var index = 0
+
+        // fill the buffer with data points
+        // the total frameCount for each channel is 132300 but since we can only retrieve 10,000 numbers at a time we will need to space the data points out
+        for (var channel = 0; channel < channels; channel++) {
+          var nowBuffering = myArrayBuffer.getChannelData(channel);
+
+          for (var i = 0; i < frameCount; i+= 28) {
+            // Audio data needs to be -1.0 - 1.0
+            nowBuffering[i] = Math.random() * 2 - 1;
+            // nowBuffering[i] = (data[index]/100);
+            // index++
+          }
+        }
+        // Initiates the AudioNode that we can use to play our filled buffer
+        var source = audioCtx.createBufferSource();
+        // set the buffer in our AudioNode
+        source.buffer = myArrayBuffer;
+
+        source.connect(audioCtx.destination);
+        source.start();
+
+      })
+      .catch((err) => console.log(err))
+
+  }
+
 </script>
 
 </html>
