@@ -19,6 +19,6 @@ This challenge is programming language agnostic! Pick whichever language you're 
 
 ## Notes
 
--Completed using AudioContext Web API
--Since the audio buffer can hold 132300 frames per channel, the data had to be spaced out within the buffer if we wanted to avoid multiple calls to RANDOM.org API. Every 28th frame had a data point.
+- Completed using AudioContext Web API
+- Since the audio buffer can hold 132300 frames per channel, the data had to be spaced out within the buffer if we wanted to avoid multiple calls to RANDOM.org API. Every 28th frame had a data point.
 
